@@ -14,7 +14,7 @@ This repository contains the design and implementation of a CPU using SystemVeri
 
 ## How to Use:
 - Clone this repository to your local machine.
-- Explore the src folder for the SystemVerilog code files.
+- Explore the rtl folder for the SystemVerilog code files.
 - Run the testbench scripts available in the testbench folder to verify the design.
 
 ## Future Enhancements:
