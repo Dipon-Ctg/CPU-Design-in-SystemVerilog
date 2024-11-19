@@ -19,5 +19,6 @@ This repository contains the design and implementation of a CPU using SystemVeri
 
 ## Future Enhancements:
 - Extend support for additional instructions.
+- Introducing Forwarding / pipeline.
 - Optimize the memory system for larger workloads.
 
