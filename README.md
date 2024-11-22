@@ -1,6 +1,6 @@
 ## Description
 This repository contains the design and implementation of a CPU using SystemVerilog, along with a small memory module. The CPU is capable of executing a set of instructions inspired by the RISC-V Instruction Set Architecture (ISA).
-[!image](https://github.com/Dipon-Ctg/CPU-Design-in-SystemVerilog/blob/main/src/IMG_0075.JPG)
+![image](https://github.com/Dipon-Ctg/CPU-Design-in-SystemVerilog/blob/main/src/IMG_0075.JPG)
 
 ## Key Features:
 - Data Path and Control Unit: Comprehensive design of the CPU's data path and control logic.
