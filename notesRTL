@@ -1,5 +1,7 @@
-1. include lower modules in the top module before instantiating 
+1. include lower modules in the top module before instantiating ('include ..)
 2. muxes module: redundant mux definition?
-3. instruction memory Size: 24 entries then the address needs only 5 bits, not 11 
+3. instruction memory Size: 24 entries then the address needs only 5 bits, not 11 ..16 entries (address 4bits)
 4. instruction memory initialization ?? ..need some way to setup the array with some values at testbench (maybe add a write option and do it once)
-5. 
+5. visit the control unit to reflect jmp/bnq/beq changes discussed today (11/23)
+**
+
