@@ -5,8 +5,9 @@ module top (
   input logic clk,reset
 );
   
-  logic [11:0] pc_top, instruction_top,rd1_top,rd2_top,ImmExit_top,mux1_out_top,adder_out_top,pc_next_top,mux2_out_top,ALUResult_top,MemData_out_top,mux3_out_top;
-  logic RegWrite_top,ALUSrc_top,Branch_top,zero_top,add_out_top,MemWrite_top,MemRead_top,ResultReg_top;
+  logic [11:0] instruction_top,write_datatop, rd1_top,rd2_top,ImmExit_top,mux1_out_top,adder_out_top,mux2_out_top,ALUResult_top,MemData_out_top,mux3_out_top;
+  logic [3:0] pc_top,pc_nex_top;
+  logic RegWrite_top,ALUSrc_top,Branch_top,zero_top,add_out_top,MemWrite_top,MemRead_top,ResultReg_top,wr_entop;
   logic [2:0] ALUControl_top,control_out_top;
   
   //Program counter
@@ -27,7 +28,9 @@ module top (
   instruction_memory instruction_memory_inst (
     .clk(clk),
     .reset(reset),
-    .read_address(pc_top),
+    .wr_en(wr_entop),
+    .write_data(write_datatop),
+    .addr(pc_top),
     .instruction(instruction_top)
   );
   
