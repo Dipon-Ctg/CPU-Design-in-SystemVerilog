@@ -1,5 +1,5 @@
 //Control Unit
-
+/*
 module control_unit (
   input logic clk,reset,		//Without FSM we have remove it
   input logic [3:0] opcode,
@@ -27,7 +27,7 @@ module control_unit (
       endcase
       
     end
-  */
+  
   
   
   //With FSM
@@ -233,4 +233,152 @@ endmodule
     
 endmodule
     */
+
+module control_unit (
+  input logic clk,reset,zero,		//Without FSM we have remove it
+  input logic [3:0] opcode,
+  output logic RegWrite, MemWrite, MemRead, ALUSrc, PCSrc, ResultSrc,
+  output logic [2:0] ALUControl
+);
+  
+  
+  
+  //With FSM
+  typedef enum logic [2:0] {
+    FETCH = 3'b000,
+    DECODE = 3'b001,
+    EXECUTE = 3'b010,
+    MEM_ACCESS = 3'b011,
+    WRITE_BACK = 3'b100
+  } state_t;
+  
+  state_t current_state, next_state;
+  
+  always_ff @(posedge clk or posedge reset)
+    begin
+      if(reset)
+        current_state <= FETCH;
+      else
+        current_state <= next_state;
+    end
+  //Default value for control signals
+  always_comb
+    begin
+      RegWrite = 0;
+      MemWrite = 0;
+      MemRead = 0;
+      ALUSrc = 0;
+      PCSrc = 0;
+      ResultSrc = 0;
+      ALUControl = 3'b000;
+      
+      next_state = FETCH;
+      
+      case (current_state)
+        FETCH:
+          begin
+            next_state = DECODE;
+          end
+        DECODE:
+          begin
+            case(opcode)
+              4'b1010:
+                begin
+                  RegWrite = 1;	//ADD
+                  ALUControl = 3'b001;
+                  next_state = EXECUTE;
+                end
+              4'b0001:
+                begin
+                  RegWrite = 1;	//SUB
+                  ALUControl = 3'b010;
+                  next_state = EXECUTE;
+                end
+              4'b0010:
+                begin
+                  RegWrite = 1;	//AND
+                  ALUControl = 3'b011;
+                  next_state = EXECUTE;
+                end
+              4'b0011:
+                begin
+                  RegWrite = 1;	//OR
+                  ALUControl = 3'b100;
+                  next_state = EXECUTE;
+                end
+              4'b0100:
+                begin
+                  RegWrite = 1;	//XOR
+                  ALUControl = 3'b101;
+                  next_state = EXECUTE;
+                end
+              4'b0101:
+                begin
+                  ALUSrc = 1;	//LD
+                  ResultSrc = 1;
+                  RegWrite = 1;
+                  ALUControl = 3'b001;
+                  MemRead = 1;
+                  next_state = MEM_ACCESS;
+                end
+              4'b0110:
+                begin
+                  ALUSrc = 1;	//ST
+                  ALUControl = 3'b001;
+                  MemWrite = 1;
+                  next_state = MEM_ACCESS;
+                end
+              4'b0111:		//J
+                begin
+                  PCSrc = 1;
+                  next_state = FETCH;
+                end
+                  
+              4'b1000:
+                begin 		//BEQ
+                  if(zero)
+                    PCSrc = 1;
+                  else
+                    PCSrc = 0;
+                  ALUControl = 3'b110;
+                  next_state = FETCH;
+                end
+              4'b1001:		//BNE
+                begin
+                  if(zero)
+                    PCSrc = 1;
+                  else
+                    PCSrc = 0;
+                  ALUControl = 3'b110;
+                  next_state = FETCH;
+                end
+              default:
+                begin
+                  next_state = FETCH;
+                end
+            endcase
+          end
+        EXECUTE: 
+          begin
+            if(opcode == 4'b0101 || opcode == 4'b0110) //LD or ST
+              next_state = MEM_ACCESS;
+            else
+              next_state = WRITE_BACK;
+          end
+        MEM_ACCESS:
+          begin
+            if (opcode == 4'b0101)	//LD
+              next_state = WRITE_BACK;
+            else
+              next_state = FETCH;
+          end
+        WRITE_BACK:
+          begin
+            next_state = FETCH;
+          end
+      endcase
+      
+    end
+  
+endmodule
 
