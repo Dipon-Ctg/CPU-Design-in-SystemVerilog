@@ -1,5 +1,5 @@
 //ALU Control
-
+/*
 module alu_control (
   input logic [1:0] instruction,
   input logic [2:0] ALUControl,
@@ -23,9 +23,10 @@ module alu_control (
         5'b01_010: control_out = 3'b010;
       endcase
     end
-    */
+    
          
   //assign control_out = ALUControl;
   
 endmodule
   
+*/
