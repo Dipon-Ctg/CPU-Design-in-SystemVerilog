@@ -23,3 +23,5 @@ This repository contains the design and implementation of a CPU using SystemVeri
 - Introducing Forwarding / pipeline.
 - Optimize the memory system for larger workloads.
 
+## Result
+![Screenshot 2024-11-30 at 2 32 31 AM](https://github.com/user-attachments/assets/64323c67-d761-40d7-bb4e-b3fe066d66da)
